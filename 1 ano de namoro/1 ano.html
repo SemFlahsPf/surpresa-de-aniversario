@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surpresa de Aniversário</title>
+    
+    <!-- Estilo CSS incorporado -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Cor de fundo preta */
+            color: #fff; /* Cor do texto branca */
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .carta {
+            width: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .carta:hover {
+            transform: scale(1.1);
+        }
+
+        .mensagem {
+            display: none;
+            padding: 20px;
+            background-color: #fff;
+            color: #000;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff3385;
+        }
+
+        /* Estilos para a história e imagens */
+        .imagem-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+           /* Estilo para as imagens dentro da imagem-container */
+           .imagem-container img {
+            width: 80%;       /* Largura da imagem ajustada para 80% do contêiner */
+            max-width: 200px; /* Largura máxima de 500px */
+            height: auto;     /* Mantém a proporção da imagem */
+            border-radius: 8px; /* Bordas arredondadas */
+            margin-bottom: 10px; /* Espaço entre a imagem e o texto */
+        }
+
+        .imagem-container p {
+            font-size: 1.1em;
+            color: #fff;
+        }
+
+        .capitulo-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ff66b2;
+        }
+
+        .coracao {
+            position: absolute;
+            font-size: 30px;
+            color: #ff66b2;
+            opacity: 0;
+            animation: subirCoracao 2s forwards;
+        }
+
+        @keyframes subirCoracao {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Carta Interativa -->
+        <div class="carta" id="carta" onclick="abrirCarta()">
+            <img src="imagens/carta.png" alt="Carta" width="100%">
+        </div>
+
+        <div id="mensagem" class="mensagem">
+            <p>Hoje celebramos 365 dias de amor, cumplicidade e descobertas.
+                 Parece que foi ontem que começamos nossa jornada, e ao mesmo
+                  tempo, sinto como se já tivéssemos vivido uma eternidade juntos
+                  . O tempo ao seu lado passou rápido, mas, ao mesmo tempo,
+                   cada momento se tornou inesquecível e cheio de significado.
+
+                Nestes 12 meses, vivemos tantas experiências, desde as mais
+                 simples até as mais intensas, e cada uma delas contribuiu 
+                 para nos tornar ainda mais fortes e próximos. Aprendemos 
+                 juntos, comemos juntas as delícias da vida e enfrentamos 
+                 os desafios que surgiram, sempre com o apoio um do outro.
+                  O que era algo complicado, difícil e certamente doloroso 
+                  depois do nosso terceiro mês, se transformou em algo único
+                   e especial, algo que não trocaria por nada.
+                
+                A cada sorriso seu, a cada olhar, a cada abraço apertado,
+                 tenho mais certeza de que estamos no caminho certo. A cada
+                  desafio, nos tornamos mais resilientes. Com você, aprendi
+                   o verdadeiro significado de parceria e companheirismo.
+                
+                Hoje, olhando para o nosso primeiro ano, só posso agradecer
+                 por tudo o que vivemos e por tudo o que ainda temos pela
+                  frente. Que o nosso amor continue crescendo, sempre com
+                   respeito, carinho e dedicação, como tem sido até aqui.
+                    Que venham mais anos, mais momentos, mais histórias para
+                     contar.
+                
+                Te amo, e que esse seja apenas o primeiro de muitos
+                 anos juntos.!<br> Eu fiz esse site para relembrarmos
+                  todos os momentos especiais juntos. Vamos começar nossa 
+                  história!</p>
+            <button onclick="nextPage()">Next</button>
+        </div>
+
+        <!-- Página da História -->
+        <div id="historia" style="display:none;">
+            <div id="capitulo1" class="imagem-container">
+                <div class="capitulo-title" id="titulo-capitulo">Capítulo 1: Como nos conhecemos</div>
+                <img src="imagens/imagem1.jpg" alt="Imagem 1">
+                <p>Foi um dia inesquecível... Nos conhecemos em uma ocasião inesperada e desde então nossa história começou a ser escrita.</p>
+            </div>
+            <button onclick="nextHistoria()">Next</button>
+        </div>
+
+        <!-- Página Final - Reação -->
+        <div id="reacao" style="display:none;">
+            <p><strong>Gostou?</strong></p>
+            <button id="adorei" onclick="mostrarCoracoes()">Adorei</button>
+            <button id="naoGostei" onclick="moverBotao()">Não Gostei</button>
+        </div>
+    </div>
+
+    <script>
+        let historiaStep = 1; // Controla o progresso da história
+
+        // Função para abrir a carta
+        function abrirCarta() {
+            document.getElementById('mensagem').style.display = 'block';
+            document.getElementById('carta').style.display = 'none';
+        }
+
+        // Função para avançar para a próxima página (Mensagem)
+        function nextPage() {
+            document.getElementById('mensagem').style.display = 'none';
+            document.getElementById('historia').style.display = 'block';
+            mostrarCapitulo(); // Exibe o primeiro capítulo
+        }
+
+        // Função para avançar a história
+        function nextHistoria() {
+            historiaStep++;
+            mostrarCapitulo();
+        }
+
+        // Função para mostrar o capítulo correto
+        function mostrarCapitulo() {
+            const capitulo = document.getElementById('capitulo1');
+            const tituloCapitulo = document.getElementById('titulo-capitulo');
+
+            switch (historiaStep) {
+                case 1:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">Capítulo 1: Como nos conhecemos</div>
+                        <img src="imagens/nossa primeira foto.png" alt="Imagem 1">
+                        <p>Foi um dia inesquecível... Nos conhecemos em uma ocasião inesperada e desde então nossa história começou a ser escrita.</p>
+                    `;
+                    break;
+                case 2:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">Capítulo 2:O início de uma linda história</div>
+                        <img src="imagens/primeiro role.png" alt="Imagem 2">
+                        <p>Passamos a nos conhecer cada vez mais, e nosso relacionamento se tornou algo muito especial
+                            .</p>
+                    `;
+                    break;
+                case 3:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">Capítulo 3: nosso primeiro natal e ano novo</div>
+                        <img src="imagens/primeiro ano novo.png" alt="Imagem 3">
+                        <img src="imagens/ano novo.pnG" alt="Imagem 3">
+                        <p>Passamos a nos conhecer cada vez mais, e nosso relacionamento se tornou algo muito especial
+                            nosso primeiro natal e ano novo.</p>
+                    `;
+                    break;
+                    
+                case 4:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">Capítulo 4: Momentos inesquecíveis juntos</div>
+                        <img src="imagens/cavalo.png" alt="Imagem 4">
+                        <img src="imagens/hopi 1.jpg" alt="Imagem 4">
+                        <img src="imagens/maresias.jpg" alt="Imagem 4">
+                        <img src="imagens/indio.png" alt="Imagem 4">
+                        <p>Apos aquele natal terminamos, porem voltamos e Tivemos tantas aventuras incríveis juntos! Cada momento foi único.</p>
+                    `;
+                    break;
+                case 5:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">Capítulo 5: Agora e sempre...</div>
+                        <img src="imagens/parque.jpg" alt="Imagem 5">
+                         <img src="imagens/moto.png" alt="Imagem 5">
+                          <img src="imagens/trilha.png" alt="Imagem 5">
+                        <p>Nosso amor só cresce e sempre será assim! Estamos apenas começando a nossa jornada.</p>
+                    `;
+                    break;
+                case 6:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">Eu te amo muito...</div>
+                        <img src="imagens/mais hopi.png" alt="Imagem 5">
+                         <img src="imagens/voltamos 1 foto.png" alt="Imagem 5">
+                          <img src="imagens/viagem 1.png" alt="Imagem 5">
+                          <img src="imagens/upa.png" alt="Imagem 5">
+                          <img src="imagens/viagem 2.png" alt="Imagem 5">
+                       
+                    `;
+                    break;  
+                    case 7:
+                    capitulo.innerHTML = `
+                        <div class="capitulo-title" id="titulo-capitulo">FIM: I LOVE YOU SO MUCH RSRS...</div>
+                        <p>Meu amor,
+
+Hoje, ao olhar para tudo o que vivemos até aqui, meu coração transborda de gratidão. Cada momento que passamos juntos, cada viagem, cada risada, cada desafio, só fortaleceu o que sinto por você. Não tenho palavras suficientes para expressar o quanto sou grato por tudo o que vivemos e por tudo o que você é para mim.
+
+Te amo com uma intensidade que não consigo medir, e todos os dias ao seu lado são um presente. A cada viagem, a cada passo, a cada simples gesto, sinto que estamos construindo algo lindo, uma história que só nós dois conhecemos. E é essa história que quero continuar escrevendo com você, sempre.
+
+Quero viver todos os dias ao seu lado, quero construir um futuro cheio de sonhos, conquistas e alegrias, enfrentando o que vier, mas sempre juntos, sempre com o amor e o carinho que temos um pelo outro. Obrigado por me fazer tão feliz, por me dar a chance de ser a pessoa mais realizada ao seu lado.
+
+Eu te amo mais do que palavras podem expressar, e quero passar o resto da minha vida ao seu lado, fazendo de cada dia uma nova memória inesquecível.
+
+Com todo meu amor</p>
+                       
+                    `;
+                    break; 
+                default:
+                    // Quando chega no final da história, vai para a página final de reação
+                    document.getElementById('historia').style.display = 'none';
+                    document.getElementById('reacao').style.display = 'block';
+                    break;
+            }
+        }
+                
+        // Função para mostrar os corações subindo
+        function mostrarCoracoes() {
+            const numCoracoes = 20; // Número de corações que aparecerão
+
+            for (let i = 0; i < numCoracoes; i++) {
+                criarCoracao(); // Cria um novo coração
+            }
+        }
+
+        // Função para criar um coração
+        function criarCoracao() {
+            const coracao = document.createElement('div');
+            coracao.classList.add('coracao');
+            coracao.innerHTML = '❤️'; // O ícone do coração
+
+            // Coloca o coração em uma posição aleatória na tela
+            coracao.style.left = Math.random() * 100 + 'vw'; // Posição horizontal aleatória
+            coracao.style.animationDuration = Math.random() * 2 + 2 + 's'; // Duração aleatória para o movimento
+
+            document.body.appendChild(coracao);
+
+            // Remove o coração depois da animação para limpar a tela
+            setTimeout(() => {
+                coracao.remove();
+            }, 4000); // Remove o coração após a animação
+        }
+
+        // Função para mover o botão "Não Gostei"
+        function moverBotao() {
+            const button = document.getElementById('naoGostei');
+            const randomX = Math.floor(Math.random() * 80) + 10;
+            const randomY = Math.floor(Math.random() * 80) + 10;
+            button.style.position = 'absolute';
+            button.style.top = randomY + '%';
+            button.style.left = randomX + '%';
+        }
+    </script>
+</body>
+</html>
